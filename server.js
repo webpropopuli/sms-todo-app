@@ -6,12 +6,12 @@ const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
 const DB = require("./dbfuncs");
 
-express().get("/", function(req, res) {
-  console.log("GET /");
-  res.send("Hello from my Twilio number");
-});
-
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// express().get("/", function(req, res) {
+//   console.log("GET /");
+//   res.send("Hello from my Twilio number");
+// });
 
 app.get("/sms", function(req, res) {
   console.log("GET /sms");
@@ -61,8 +61,9 @@ app.post("/sms", (req, res) => {
       break;
     case "LIST":
       console.log(`LISTing all items`);
-      DB.getAll();
-      textOut = msg;
+      msg = DB.getAll();
+      if (msg === "") textOut = "{empty list}";
+      else textOut = msg;
       break;
     case "RES":
       console.log(`RESUME request`);

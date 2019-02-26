@@ -5,13 +5,13 @@ function parseMessage(input) {
 
   if (newInput.startsWith("ADD")) {
     arrReturn[0] = "ADD";
-    arrReturn[1] = input.slice(4).trim();
+    arrReturn[1] = input.slice(3).trim();
   } else if (newInput.startsWith("DEL")) {
     arrReturn[0] = "DEL";
-    arrReturn[1] = input.slice(4).trim();
+    arrReturn[1] = input.slice(3).trim();
   } else if (newInput.startsWith("LIST")) {
     arrReturn[0] = "LIST";
-    arrReturn[1] = "1 Get milk\n2 These are fake items\n3 Cure cancer";
+    arrReturn[1] = "";
   } else if (newInput.startsWith("RES")) {
     arrReturn[0] = "RES";
     arrReturn[1] = "My resume: https://webpropopuli.com/resume_David_Marlowe.pdf";
