@@ -2,41 +2,23 @@ require("dotenv").load();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const fetch = require("node-fetch");
 const DB = require("./dbfuncs");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// express().get("/", function(req, res) {
-//   console.log("GET /");
-//   res.send("Hello from my Twilio number");
-// });
-
 app.get("/sms", function(req, res) {
-  console.log("GET /sms");
+  console.log("GET /sms- sending instructions");
 
-  let textOut = "";
+  let textOut =
+    "Hi. I'm an SMS server responding to POST requests only. Thanks for stopping by but these aren't the droids you're looking for.";
 
-  fetch("https://dog-api.kinduff.com/api/facts", {
-    headers: { "Content-Type": "application/json" }
-  })
-    .then(resp => resp.json())
-    .then(function(bod) {
-      textOut = bod.facts[0];
-
-      console.log(textOut);
-    });
-
-  //res.writeHead(200, { "Content-Type": "text/xml" });
   res.send(`${textOut}`);
-  //res.end(twiml);
 });
 
-/* This is an example if you just want to write TwiML
+/* if you just want to write TwiML
 app.post("/message", function(request, response) {
   response.send("<Response><Message>Hello</Message></Response>");
-});
-*/
+});*/
 
 app.post("/sms", (req, res) => {
   const parseMessage = require("./parseint.js");
