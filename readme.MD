@@ -10,7 +10,7 @@ The app lives at 401-324-0900
 
 ### Twilio:
 
-Each time you change your server location, you have to tell Twilio about the change. Select your phone number, then under 'Messaging' and 'A message comes in', set it to 'Webhook' and your server's path and port. Either use the ngrok-generated address [run `ngrok http 39876`] or, in my case, `http://msgbot.webpropopuli.com:39876/sms`
+Each time you change your server location, you have to tell Twilio about the change. Select your phone number, then under 'Messaging' and 'A message comes in', set it to 'Webhook' and your server's path and port. Either use the ngrok-generated address [run `ngrok http 39876`] or, in my case, `http://msgbot.webpropopuli.com:39876/sms`. The downsode of ngrok is that you have to change the Twilio dashboard server path each time you restart ngrok. (Unless you have a paid account).
 The port can be whatever but A2Hosing wants it in the range 30000-50000.
 
 ### Upload

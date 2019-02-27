@@ -1,12 +1,12 @@
 {
-  "name": "ngrok-test-minimal-express-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "sms-todo-list",
+  "version": "2.0.0",
+  "description": "Twilio and Express server to manage a todo list",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "David Marlowe, webpropopuli",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",

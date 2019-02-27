@@ -1,4 +1,3 @@
-/* SUPER MINIMAL EXPRESS SERVER */
 require("dotenv").load();
 const express = require("express");
 const app = express();
