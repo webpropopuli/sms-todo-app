@@ -1,26 +1,22 @@
 require("dotenv").load();
-const axios = require("axios");
 
-const sendSMS = msg => {
-  try {
-    return axios.post(process.env.SERVER_LOC, {
-      input: msg
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
+postData(`localhost/${process.env.PORT}`, { from: "+16025151234" })
+  .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
+  .catch(error => console.error(error));
 
-const runIt = async () => {
-  const data = sendSMS()
-    .then(response => {
-      if (response.data.message) {
-        console.log(`Got ${response.data.message}a`);
-      }
-    })
-    .catch(error => {
-      console.log("CATCH", error);
-    });
-};
-
-runIt();
+function postData(url = ``, data = {}) {
+  // Default options are marked with *
+  return fetch(url, {
+    method: "GET", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, cors, *same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json"
+      // "Content-Type": "application/x-www-form-urlencoded",
+    },
+    redirect: "follow", // manual, *follow, error
+    referrer: "no-referrer", // no-referrer, *client
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  }).then(response => response.json()); // parses response to JSON
+}
