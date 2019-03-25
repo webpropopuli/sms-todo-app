@@ -1,22 +1,38 @@
 require("dotenv").load();
+const fetch = require("node-fetch");
+//const URL = "https://api.github.com/users/github";
+const URL = "http://adb5156d.ngrok.io/sms";
 
-postData(`localhost/${process.env.PORT}`, { from: "+16025151234" })
-  .then(data => console.log(JSON.stringify(data))) // JSON-string from `response.json()` call
-  .catch(error => console.error(error));
+let BODY = {
+  From: "+16025151234",
+  data: "LIST",
+  Body: "add test",
+  a: 1
+};
+
+//getData(URL);
+postData(URL, BODY);
 
 function postData(url = ``, data = {}) {
-  // Default options are marked with *
-  return fetch(url, {
-    method: "GET", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, cors, *same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
-    headers: {
-      "Content-Type": "application/json"
-      // "Content-Type": "application/x-www-form-urlencoded",
-    },
-    redirect: "follow", // manual, *follow, error
-    referrer: "no-referrer", // no-referrer, *client
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  }).then(response => response.json()); // parses response to JSON
+  fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(BODY)
+  })
+    .then(res => res.json())
+    .then(json => console.log(json))
+    .catch(err => console.log(err));
 }
+
+function getData(url = ``) {
+  // tests the GET to see we're running
+  fetch(url)
+    .then(res => res.text())
+    .then(body => console.log(body));
+}
+
+// // res.status >= 200 && res.status < 300
+// function checkStatus(res) {
+//   if (res.ok) return res;
+//   else throw res.statusText;
+// }

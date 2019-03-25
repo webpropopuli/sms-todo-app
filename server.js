@@ -6,13 +6,11 @@ const DB = require("./dbfuncs");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//# Blow off GET requests
 app.get("/sms", function(req, res) {
-  console.log("GET /sms- sending instructions");
-
-  let textOut =
-    "Hi. I'm an SMS server responding to POST requests only. Thanks for stopping by but these aren't the droids you're looking for.";
-
-  res.send(`${textOut}`);
+  res.send(
+    "Hi. I'm an SMS server responding to POST requests only. Thanks for stopping by but these aren't the droids you're looking for."
+  );
 });
 
 /* if you just want to write TwiML
@@ -20,10 +18,14 @@ app.post("/message", function(request, response) {
   response.send("<Response><Message>Hello</Message></Response>");
 });*/
 
+//# The moneyshot...
 app.post("/sms", (req, res) => {
-  const parseMessage = require("./parseint.js");
+  const parseMessage = require("./parsemsg.js");
   const textIn = req.body.Body;
-  // console.log("POST sms got: ", textIn);
+  //console.log("POST sms got: ", req.body);
+
+  const callerNum = req.body.From;
+  console.log("Message from ", callerNum);
 
   //# Parse the incoming message looking for commands
   let textOut = "";
@@ -32,17 +34,17 @@ app.post("/sms", (req, res) => {
   switch (mode) {
     case "ADD":
       console.log(`ADDing item <${msg}>`);
-      DB.addOne(msg);
+      DB.addOne(msg, callerNum);
       textOut = "Item added";
       break;
     case "DEL":
       console.log(`DEL item <${msg}>`);
-      DB.delOne(msg);
+      DB.delOne(msg, callerNum);
       textOut = "Item deleted";
       break;
     case "LIST":
       console.log(`LISTing all items`);
-      msg = DB.getAll();
+      msg = DB.getAll(callerNum);
       if (msg === "") textOut = "{empty list}";
       else textOut = msg;
       break;
@@ -50,15 +52,18 @@ app.post("/sms", (req, res) => {
       console.log(`RESUME request`);
       textOut = msg;
       break;
-    case "ERR":
-      console.log(`PARSE error: ${msg}`);
-      textOut = msg;
-      break;
 
-    case "":
+    // unused at the moment.
+    // case "ERR":
+    //   console.log(`PARSE error: ${msg}`);
+    //   textOut = msg;
+    //   break;
+
+    case null:
       console.log(`SEND instructions`);
       textOut = msg;
       break;
+
     default:
       assert(0); // should never happen
   }
