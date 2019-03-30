@@ -1,25 +1,21 @@
+const functions = require("firebase-functions");
 require("dotenv").load();
-const express = require("express");
-const app = express();
+
 const bodyParser = require("body-parser");
 const DB = require("./dbfuncs");
 
-app.use(bodyParser.urlencoded({ extended: false }));
+const express = require("express");
+const myExpressApp = express();
+myExpressApp.use(bodyParser.urlencoded({ extended: false }));
 
-//# Blow off GET requests
-app.get("/sms", function(req, res) {
+myExpressApp.get("/sms", (req, res) => {
   res.send(
     "Hi. I'm an SMS server responding to POST requests only. Thanks for stopping by but these aren't the droids you're looking for."
   );
 });
 
-/* if you just want to write TwiML
-app.post("/message", function(request, response) {
-  response.send("<Response><Message>Hello</Message></Response>");
-});*/
-
 //# The moneyshot...
-app.post("/sms", (req, res) => {
+myExpressApp.post("/sms", (req, res) => {
   const parseMessage = require("./parsemsg.js");
   const textIn = req.body.Body;
   //console.log("POST sms got: ", req.body);
@@ -83,7 +79,11 @@ app.post("/sms", (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-var server = app.listen(PORT, function() {
-  console.log(`ToDo bot live at host ${server.address().address} on port ${server.address().port}`);
-});
+//* unused in firebase version
+// const PORT = process.env.PORT || 5000;
+// var server = app.listen(PORT, function() {
+//   console.log(`ToDo bot live at host ${server.address().address} on port ${server.address().port}`);
+// });
+
+//# Export to firebase
+exports.myExpressApp = functions.https.onRequest(myExpressApp);

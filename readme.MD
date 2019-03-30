@@ -22,6 +22,10 @@ I just FTP code to my server. NPM seems to need a push with new packages (i.e. `
 
 SSH to my server and run `nohup node server &` in my directory. `nohup` allows it to run after the SSH session closes (nohup = "no hangup" - old-school stuff there) and the trailing `&` runs it in background. Also, everything that would have written to the screen is now redirected to `nohup.out` (renameable). If you just type `node server` the server dies when you close your shell terminal. Also, the next time you restart your SSH session, the previous instance may not be dead so you may have to `kill` it yourself.
 
+## Update
+
+I moved this from local/ngrok to shared host at A2 to it's new home at Firebase. Remember to `firebase login` and then `firebase deploy --only functions,hosting` to push.
+
 ## ToDO items
 
 1 Deploy to A2 on build, or push from GitHub
